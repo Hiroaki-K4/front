@@ -6,25 +6,35 @@ Vue.use(Vuex)
 
 const store =  new Vuex.Store({
     state: {
-        cards: []
+        cards: [],
+        blog: [],
     },
     mutations: {
         mutateDataSet(state, payload) {
             state.cards = payload;
+        },
+        mutateBlog(state, payload) {
+            state.blog = payload;
         }
     },
     actions: {
-        commitDataSet(store) {
+        commitDataSet({ commit }) {
             return axios.get('http://hiroakik.pythonanywhere.com/api/v2/pages/')
                 .then(response => {
-                store.commit('mutateDataSet', response.data.items)
+                commit('mutateDataSet', response.data.items)
                 })
-        }
+        },
+        commitBlog({ commit }, payload) {
+            commit('mutateBlog', payload.blog)
+        },
     },
     getters: {
-        getList (state) {
+        getList(state) {
             return state.cards
-        }
+        },
+        getBlog(state) {
+            return state.blog
+        },
     },
 })
 

@@ -16,7 +16,7 @@
                             class="white--text align-end"
                             gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                             height="200px"
-                            @click="getBlog"
+                            @click="getBlog(card)"
                         >
                             <v-card-title v-text="card.title"></v-card-title>
                         </v-img>
@@ -55,7 +55,7 @@ export default {
         }
     },
     mounted() {
-        axios.get('http://hiroakik.pythonanywhere.com/api/v2/pages/')
+        axios.get('https://hiroakik.pythonanywhere.com/api/v2/pages/?type=home.HomePage&fields=body,image_thumbnail')
             .then((res) => {
                 this.cards = res.data.items;
             })
@@ -65,7 +65,8 @@ export default {
             });
     },
     methods: {
-        getBlog: function() {
+        getBlog: function(info) {
+            this.$store.dispatch('commitBlog', {blog: info})
             this.$router.push('/blog')
         }
     },
